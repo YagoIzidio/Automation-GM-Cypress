@@ -1,0 +1,17 @@
+{
+  "name": "automation-gm-cypres",
+  "version": "1.0.0",
+  "description": "Projeto de automacao CHEVROLET",
+  "main": "index.js",
+  "scripts": {
+    "open": "npx cypress open",
+    "openH": "npx cypress run"
+  },
+  "author": "yago izidio barros",
+  "license": "MIT",
+  "devDependencies": {
+    "cypress": "^9.3.1",
+    "cypress-xpath": "^1.6.2",
+    "mysql": "github:mysqljs/mysql"
+  }
+}

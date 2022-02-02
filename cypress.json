@@ -1,0 +1,15 @@
+{
+  "baseUrl": "https://chevroletdigital-dev.accurate.com.br/",
+
+  "viewportHeight":1025,
+  "viewportWidth":1700,
+  "defaultCommandTimeout":10000,
+
+  "env": {
+    "db": {
+      "host": "simulator.c4newc1nii0l.us-east-2.rds.amazonaws.com",
+      "user": "accurate",
+      "password": "yVJWv02aDjLb"
+    }
+  }
+}
