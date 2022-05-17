@@ -4,17 +4,17 @@ class ColorPage {
     cy.get('.title').should('contain', 'Cores GM')
   }
 
-  fillFormColor(colorName, colorCode) {
-    cy.xpath('//*[@name="colorDescription"]').type(colorName)
-    cy.xpath('//*[@name="colorCode"]').type(colorCode)
+  fillFormColor(colorOffers) {
+    cy.xpath('//*[@name="colorDescription"]').type(colorOffers.name)
+    cy.xpath('//*[@name="colorCode"]').type(colorOffers.code)
   }
 
   submitColor() {
     cy.get('[data-cy="newColorSubmitButton"]').click()
   }
 
-  editColor(colorCode) {
-    cy.xpath(`//table[@class='form-row']//td[contains(@title,'${colorCode}')]/../td[3]/div//i`).click()
+  editColor(colorOffers) {
+    cy.xpath(`//table[@class='form-row']//td[contains(@title,'${colorOffers.code}')]/../td[3]/div//i`).click()
     cy.xpath('//*[@name="colorDescription"]').clear()
     cy.xpath('//*[@name="colorCode"]').clear()
   }
@@ -23,19 +23,19 @@ class ColorPage {
     cy.get('.alert-success').should('contain', alert)
   }
 
-  inspectColor(colorName, colorCode) {
-    cy.xpath(`//tbody//tr/td[@title="${colorCode}"]/..`).should('contain', colorName)
+  inspectColor(colorOffers) {
+    cy.xpath(`//tbody//tr/td[@title="${colorOffers.code}"]/..`).should('contain', colorOffers.name)
   }
  
-  removeColorDB(colorName, colorCode) {
-    cy.task("queryDb", `DELETE FROM simulator.vehicle_color WHERE description ='${colorName}'`);
-    cy.task("queryDb", `DELETE FROM simulator.vehicle_color WHERE description ='${colorCode}'`);
-    cy.task("queryDb", `DELETE FROM simulator.vehicle_color WHERE code ='${colorCode}'`);
-    cy.task("queryDb", `DELETE FROM simulator.vehicle_color WHERE code ='${colorName}'`);
+  removeColorDB(colorOffers) {
+    cy.task("queryDb", `DELETE FROM simulator.vehicle_color WHERE description ='${colorOffers.name}'`);
+    cy.task("queryDb", `DELETE FROM simulator.vehicle_color WHERE description ='${colorOffers.code}'`);
+    cy.task("queryDb", `DELETE FROM simulator.vehicle_color WHERE code ='${colorOffers.code}'`);
+    cy.task("queryDb", `DELETE FROM simulator.vehicle_color WHERE code ='${colorOffers.name}'`);
   }
 
-  addColorDB(colorName, colorCode) {
-    cy.task("queryDb", `INSERT INTO simulator.vehicle_color (description, source, code, editable) VALUES ('${colorName}', 'OFFER', '${colorCode}', '1');`);
+  addColorDB(colorOffers) {
+    cy.task("queryDb", `INSERT INTO simulator.vehicle_color (description, source, code, editable) VALUES ('${colorOffers.name}', 'OFFER', '${colorOffers.code}', '1');`);
   }
 
   invalidFeedbackColor(alert) {

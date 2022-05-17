@@ -3,183 +3,168 @@ import meusDados from '../../../../../support/pages/Common/MyDataPage'
 import cores from '../../../../../support/pages/OfertasPage/ColorPage'
 import menu from '../../../../../support/pages/OfertasPage/MenuPage' 
 
+describe('Pagina de Cores', function() {
 
-var usuarioLogado = {
-  user: 'AGOFFR',
-  password: 'Augusto23051991@',
-  perfil: 'GMF Ofertas'
-}
+  beforeEach( function() {
 
-var dadosCor1 = {
-  nome: 'CYPRESS ROBOT 1',
-  codigo: 'CR1'
-}
+    cy.fixture('dataOffers').then((massData)=> {
+      this.dataOffers = massData
+    })
+  
+  })
 
-var dadosCor2 = {
-  nome: 'CYPRESS ROBOT 2',
-  codigo: 'CR2'
-}
+  beforeEach( function() {
 
-var dadosCor3 = {
-  nome: 'CYPRESS ROBOT 3',
-  codigo: 'CR3'
-}
+    login.goLogin()
+    login.confirmPageLogin()
+    login.fillFormLogin(this.dataOffers.userOffers.user_logged)
+    login.submitLogin()
+  
+    menu.navPageData()
+  
+    meusDados.confirmPageData(this.dataOffers.userOffers.user_logged)
+  
+  })
 
-beforeEach(() => {
+  it('Criar cor com sucesso', function() {
 
-  login.goLogin()
-  login.confirmPageLogin()
-  login.fillFormLogin(usuarioLogado.user, usuarioLogado.password)
-  login.submitLogin()
-
-  menu.navPageData()
-
-  meusDados.confirmPageData(usuarioLogado.user, usuarioLogado.perfil)
-
-})
-
-describe('Pagina de Cores', () => {
-
-  it('Criar cor com sucesso', () => {
-
-    cores.removeColorDB(dadosCor1.nome, dadosCor1.codigo)
+    cores.removeColorDB(this.dataOffers.colorOffers.color1)
     menu.navPageColor()
     cores.confirmPageColor()
-    cores.fillFormColor(dadosCor1.nome, dadosCor1.codigo)
+    cores.fillFormColor(this.dataOffers.colorOffers.color1)
     cores.submitColor()
-    cores.alertSucessColor('Cor salva com sucesso')
-    cores.inspectColor(dadosCor1.nome, dadosCor1.codigo)
+    cores.alertSucessColor(this.dataOffers.colorOffers.inspect_screen_message.successfully_added)
+    cores.inspectColor(this.dataOffers.colorOffers.color1)
 
   })
 
-  it('Editar cor com sucesso', () => {
+  it('Editar cor com sucesso', function() {
 
-    cores.removeColorDB(dadosCor1.nome, dadosCor1.codigo)
-    cores.removeColorDB(dadosCor2.nome, dadosCor2.codigo)
-    cores.addColorDB(dadosCor1.nome, dadosCor1.codigo)
+    cores.removeColorDB(this.dataOffers.colorOffers.color1)
+    cores.removeColorDB(this.dataOffers.colorOffers.color2)
+    cores.addColorDB(this.dataOffers.colorOffers.color1)
     menu.navPageColor()
     cores.confirmPageColor()
-    cores.editColor(dadosCor1.codigo)
-    cores.fillFormColor(dadosCor2.nome, dadosCor2.codigo)
+    cores.editColor(this.dataOffers.colorOffers.color1)
+    cores.fillFormColor(this.dataOffers.colorOffers.color2)
     cores.submitColor()
-    cores.alertSucessColor('Cor salva com sucesso')
-    cores.inspectColor(dadosCor2.nome ,dadosCor2.codigo)
+    cores.alertSucessColor(this.dataOffers.colorOffers.inspect_screen_message.successfully_added)
+    cores.inspectColor(this.dataOffers.colorOffers.color2)
 
   })
 
-  it('Editar cor com o mesmo nome com sucesso', () => {
+  it('Editar cor com o mesmo nome com sucesso', function() {
 
-    cores.removeColorDB(dadosCor1.nome, dadosCor1.codigo)
-    cores.addColorDB(dadosCor1.nome, dadosCor1.codigo)
+    cores.removeColorDB(this.dataOffers.colorOffers.color1)
+    cores.addColorDB(this.dataOffers.colorOffers.color1)
     menu.navPageColor()
     cores.confirmPageColor()
-    cores.editColor(dadosCor1.codigo)
-    cores.fillFormColor(dadosCor1.nome, dadosCor1.codigo)
+    cores.editColor(this.dataOffers.colorOffers.color1)
+    cores.fillFormColor(this.dataOffers.colorOffers.color1)
     cores.submitColor()
-    cores.alertSucessColor('Cor salva com sucesso')
-    cores.inspectColor(dadosCor1.nome, dadosCor1.codigo)
+    cores.alertSucessColor(this.dataOffers.colorOffers.inspect_screen_message.successfully_added)
+    cores.inspectColor(this.dataOffers.colorOffers.color1)
+  })
+
+  it('Tentativa de criar cor com os campos vazios', function() {
+
+    menu.navPageColor()
+    cores.confirmPageColor()
+    cores.submitColor()
+    cores.invalidFeedbackColor(this.dataOffers.colorOffers.inspect_screen_message.empty_code)
+    cores.invalidFeedbackColor(this.dataOffers.colorOffers.inspect_screen_message.empty_name)
     
   })
 
-  it('Tentativa de criar cor com os campos vazios', () => {
+  it('Tentativa de criar cor com o mesmo nome de outra cor existente', function() {
 
+    cores.removeColorDB(this.dataOffers.colorOffers.color1)
+    cores.addColorDB(this.dataOffers.colorOffers.color1)
     menu.navPageColor()
     cores.confirmPageColor()
+    cores.fillFormColor(this.dataOffers.colorOffers.color1_name_equal)
     cores.submitColor()
-    cores.invalidFeedbackColor('Preencha o nome da cor')
-    cores.invalidFeedbackColor('Preencha o código da cor')
+    cores.alertDangerColor(this.dataOffers.colorOffers.inspect_screen_message.equal_name)
     
   })
 
-  it('Tentativa de criar cor com o mesmo nome de outra cor existente', () => {
+  it('Tentativa de criar cor com o mesmo codigo de outra cor existente',function() {
 
-    cores.removeColorDB(dadosCor1.nome, dadosCor1.codigo)
-    cores.addColorDB(dadosCor1.nome, dadosCor1.codigo)
+    cores.removeColorDB(this.dataOffers.colorOffers.color1)
+    cores.addColorDB(this.dataOffers.colorOffers.color1)
     menu.navPageColor()
     cores.confirmPageColor()
-    cores.fillFormColor(dadosCor1.nome, 'CR4')
+    cores.fillFormColor(this.dataOffers.colorOffers.color1_code_equal)
     cores.submitColor()
-    cores.alertDangerColor('Não foi possível salvar a cor. Verifique se os campos não são iguais a campos de outras cores')
+    cores.alertDangerColor(this.dataOffers.colorOffers.inspect_screen_message.equal_code)
     
   })
 
-  it('Tentativa de criar cor com o mesmo codigo de outra cor existente', () => {
+  it('Tentativa de criar cor com o nome e codigo grande', function() {
 
-    cores.removeColorDB(dadosCor1.nome, dadosCor1.codigo)
-    cores.addColorDB(dadosCor1.nome, dadosCor1.codigo)
     menu.navPageColor()
     cores.confirmPageColor()
-    cores.fillFormColor('cypress robot teste', dadosCor1.codigo)
+    cores.fillFormColor(this.dataOffers.colorOffers.color_limit_characters)
     cores.submitColor()
-    cores.alertDangerColor('Não foi possível salvar a cor. Verifique se os campos não são iguais a campos de outras cores')
+    cores.invalidFeedbackColor(this.dataOffers.colorOffers.inspect_screen_message.limit_characters_name)
+    cores.invalidFeedbackColor(this.dataOffers.colorOffers.inspect_screen_message.limit_characters_code)
+
+  })
+
+  it('Tentativa de editar cor com os campos vazios', function() {
+
+    cores.removeColorDB(this.dataOffers.colorOffers.color1)
+    cores.addColorDB(this.dataOffers.colorOffers.color1)
+    menu.navPageColor()
+    cores.confirmPageColor()
+    cores.editColor(this.dataOffers.colorOffers.color1)
+    cores.submitColor()
+    cores.invalidFeedbackColor(this.dataOffers.colorOffers.inspect_screen_message.empty_code)
+    cores.invalidFeedbackColor(this.dataOffers.colorOffers.inspect_screen_message.empty_name)
     
   })
 
-  it('Tentativa de criar cor com o nome e codigo grande', () => {
+  it('Tentativa de editar cor com o mesmo nome de outra cor existente', function() {
 
+    cores.removeColorDB(this.dataOffers.colorOffers.color1)
+    cores.removeColorDB(this.dataOffers.colorOffers.color2)
+    cores.addColorDB(this.dataOffers.colorOffers.color1)
+    cores.addColorDB(this.dataOffers.colorOffers.color2)
     menu.navPageColor()
     cores.confirmPageColor()
-    cores.fillFormColor('AMARELO ESVERDEADOCLAROAMARELO ESVERDEADO CLAROAMARELO ESVERDEADO CLAROAMARELO ESVERDEADO CLAROAMAREL', '1234')
+    cores.editColor(this.dataOffers.colorOffers.color1)
+    cores.fillFormColor(this.dataOffers.colorOffers.color2_name_equal)
     cores.submitColor()
-    cores.invalidFeedbackColor('O nome da cor pode ter no máximo 100 caracteres')
-    cores.invalidFeedbackColor('O código da cor pode ter no máximo 3 caracteres')
-
-  })
-
-  it('Tentativa de editar cor com os campos vazios', () => {
-
-    cores.removeColorDB(dadosCor1.nome, dadosCor1.codigo)
-    cores.addColorDB(dadosCor1.nome, dadosCor1.codigo)
-    menu.navPageColor()
-    cores.confirmPageColor()
-    cores.editColor(dadosCor1.codigo)
-    cores.submitColor()
-    cores.invalidFeedbackColor('Preencha o nome da cor')
-    cores.invalidFeedbackColor('Preencha o código da cor')
+    cores.alertDangerColor(this.dataOffers.colorOffers.inspect_screen_message.equal_name)
     
   })
 
-  it('Tentativa de editar cor com o mesmo nome de outra cor existente', () => {
+  it('Tentativa de editar cor com o mesmo codigo de outra cor existente', function() {
 
-    cores.removeColorDB(dadosCor1.nome, dadosCor1.codigo)
-    cores.removeColorDB(dadosCor2.nome, dadosCor2.codigo)
-    cores.addColorDB(dadosCor1.nome, dadosCor1.codigo)
-    cores.addColorDB(dadosCor2.nome, dadosCor2.codigo)
+    cores.removeColorDB(this.dataOffers.colorOffers.color1)
+    cores.removeColorDB(this.dataOffers.colorOffers.color2)
+    cores.addColorDB(this.dataOffers.colorOffers.color1)
+    cores.addColorDB(this.dataOffers.colorOffers.color2)
     menu.navPageColor()
     cores.confirmPageColor()
-    cores.editColor(dadosCor1.codigo)
-    cores.fillFormColor(dadosCor2.nome, 'CR4')
+    cores.editColor(this.dataOffers.colorOffers.color1)
+    cores.fillFormColor(this.dataOffers.colorOffers.color2_code_equal)
     cores.submitColor()
-    cores.alertDangerColor('Não foi possível salvar a cor. Verifique se os campos não são iguais a campos de outras cores')
+    cores.alertDangerColor(this.dataOffers.colorOffers.inspect_screen_message.equal_code)
     
   })
 
-  it('Tentativa de editar cor com o mesmo codigo de outra cor existente', () => {
+  it('Tentativa de editar cor com o nome e codigo grande', function() {
 
-    cores.removeColorDB(dadosCor1.nome, dadosCor1.codigo)
-    cores.removeColorDB(dadosCor2.nome, dadosCor2.codigo)
-    cores.addColorDB(dadosCor1.nome, dadosCor1.codigo)
-    cores.addColorDB(dadosCor2.nome, dadosCor2.codigo)
+    cores.removeColorDB(this.dataOffers.colorOffers.color1)
+    cores.addColorDB(this.dataOffers.colorOffers.color1)
     menu.navPageColor()
     cores.confirmPageColor()
-    cores.editColor(dadosCor1.codigo)
-    cores.fillFormColor('cypress robot teste', dadosCor2.codigo)
+    cores.editColor(this.dataOffers.colorOffers.color1)
+    cores.fillFormColor(this.dataOffers.colorOffers.color_limit_characters)
     cores.submitColor()
-    cores.alertDangerColor('Não foi possível salvar a cor. Verifique se os campos não são iguais a campos de outras cores')
-    
-  })
-
-  it('Tentativa de editar cor com o nome e codigo grande', () => {
-
-    cores.removeColorDB(dadosCor1.nome, dadosCor1.codigo)
-    cores.addColorDB(dadosCor1.nome, dadosCor1.codigo)
-    menu.navPageColor()
-    cores.confirmPageColor()
-    cores.editColor(dadosCor1.codigo)
-    cores.fillFormColor('AMARELO ESVERDEADOCLAROAMARELO ESVERDEADO CLAROAMARELO ESVERDEADO CLAROAMARELO ESVERDEADO CLAROAMAREL', '1234')
-    cores.submitColor()
-    cores.invalidFeedbackColor('O nome da cor pode ter no máximo 100 caracteres')
-    cores.invalidFeedbackColor('O código da cor pode ter no máximo 3 caracteres')
+    cores.invalidFeedbackColor(this.dataOffers.colorOffers.inspect_screen_message.limit_characters_name)
+    cores.invalidFeedbackColor(this.dataOffers.colorOffers.inspect_screen_message.limit_characters_code)
     
   })
 

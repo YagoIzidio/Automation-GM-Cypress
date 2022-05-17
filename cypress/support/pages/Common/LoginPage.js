@@ -8,9 +8,9 @@ class LoginPage {
     cy.get('.btn-link').should('contain', 'Esqueci minha senha')
   }
 
-  fillFormLogin(email, password) {
-    cy.get('input[name="username"]').type(email)
-    cy.get('input[name="password"]').type(password)
+  fillFormLogin(profileUser) {
+    cy.get('input[name="username"]').type(profileUser.user)
+    cy.get('input[name="password"]').type(profileUser.password)
   }
 
   submitLogin() {

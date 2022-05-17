@@ -4,23 +4,23 @@ class CampaignPage {
     cy.get('.title').should('contain', 'Campanhas')
   }
   
-  fillFormCampaign(campaignName, campaignCode) {
-    cy.xpath('//*[@name="campaignName"]').type(campaignName)
-    cy.xpath('//*[@name="campaignCode"]').type(campaignCode)
+  fillFormCampaign(campaignOffers) {
+    cy.xpath('//*[@name="campaignName"]').type(campaignOffers.name)
+    cy.xpath('//*[@name="campaignCode"]').type(campaignOffers.code)
   }
 
   submitCampaign() {
     cy.get('[data-cy="newCampaignSubmitButton"]').click()
   }
 
-  editCampaign(campaignCode) {
-    cy.xpath(`//table[@class='form-row']//td[contains(@title,'${campaignCode}')]//../td[4]//span[2]/i`).click()
+  editCampaign(campaignOffers) {
+    cy.xpath(`//table[@class='form-row']//td[contains(@title,'${campaignOffers.code}')]//../td[4]//span[2]/i`).click()
     cy.xpath('//*[@name="campaignName"]').clear()
     cy.xpath('//*[@name="campaignCode"]').clear()
   }
 
-  inactivateCampaign(campaignCode) {
-    cy.xpath(`//table[@class='form-row']//td[contains(@title,'${campaignCode}')]//../td[4]//span[1]/i`).click()
+  inactivateCampaign(campaignOffers) {
+    cy.xpath(`//table[@class='form-row']//td[contains(@title,'${campaignOffers.code}')]//../td[4]//span[1]/i`).click()
     cy.get('[data-cy="modalButton"]').click()
   }
 
@@ -28,23 +28,23 @@ class CampaignPage {
     cy.get('.alert-success').should('contain', alert)
   }
 
-  inspectCampaign(campaignName ,campaignCode) {
-    cy.xpath(`//tbody//tr/td[@title="${campaignCode}"]/..`).should('contain', campaignName)
+  inspectCampaign(campaignOffers) {
+    cy.xpath(`//tbody//tr/td[@title="${campaignOffers.code}"]/..`).should('contain', campaignOffers.name)
   }
 
-  inspectStatusCampaign(campaignCode, status) {
-    cy.xpath(`//tbody//tr/td[@title="${campaignCode}"]/../td[3]`).should('contain', status)
+  inspectStatusCampaign(campaignOffers, status) {
+    cy.xpath(`//tbody//tr/td[@title="${campaignOffers.code}"]/../td[3]`).should('contain', status)
   }
   
-  removeCampaignDB(campaignName, campaignCode) {
-    cy.task("queryDb", `DELETE FROM offer.offer_campaign WHERE name ='${campaignName}'`);
-    cy.task("queryDb", `DELETE FROM offer.offer_campaign WHERE name ='${campaignCode}'`);
-    cy.task("queryDb", `DELETE FROM offer.offer_campaign WHERE code ='${campaignCode}'`);
-    cy.task("queryDb", `DELETE FROM offer.offer_campaign WHERE code ='${campaignName}'`);
+  removeCampaignDB(campaignOffers) {
+    cy.task("queryDb", `DELETE FROM offer.offer_campaign WHERE name ='${campaignOffers.name}'`);
+    cy.task("queryDb", `DELETE FROM offer.offer_campaign WHERE name ='${campaignOffers.code}'`);
+    cy.task("queryDb", `DELETE FROM offer.offer_campaign WHERE code ='${campaignOffers.code}'`);
+    cy.task("queryDb", `DELETE FROM offer.offer_campaign WHERE code ='${campaignOffers.name}'`);
   }
 
-  addCampaignDB(campaignName, campaignCode) {
-    cy.task("queryDb", `INSERT INTO offer.offer_campaign (code, name, enabled) VALUES ('${campaignCode}', '${campaignName}', '1');`);
+  addCampaignDB(campaignOffers) {
+    cy.task("queryDb", `INSERT INTO offer.offer_campaign (code, name, enabled) VALUES ('${campaignOffers.code}', '${campaignOffers.name}', '1');`);
   }
 
   invalidFeedbackCampaign(alert) {
@@ -53,6 +53,11 @@ class CampaignPage {
 
   alertDangerCampaign(alert) {
     cy.get('.alert-danger').should('contain', alert)
+  }
+
+  waitRequest(rota) {
+    cy.intercept('GET', rota ).as('waitLoadCampaign')
+    cy.wait('@waitLoadCampaign')
   }
   
 }

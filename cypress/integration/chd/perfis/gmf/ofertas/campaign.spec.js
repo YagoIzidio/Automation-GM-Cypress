@@ -3,256 +3,242 @@ import meusDados from '../../../../../support/pages/Common/MyDataPage'
 import campanhas from '../../../../../support/pages/OfertasPage/CampaignPage'
 import menu from '../../../../../support/pages/OfertasPage/MenuPage' 
 
+describe('Pagina de Campanhas',function() {
 
-var usuarioLogado = {
-  user: 'AGOFFR',
-  password: 'Augusto23051991@',
-  perfil: 'GMF Ofertas'
-}
+  beforeEach( function() {
 
-var dadosCampanha1 = {
-  nome: 'cypress robot 1',
-  codigo: 'CR1'
-}
+    cy.fixture('dataOffers').then((massData)=> {
+      this.dataOffers = massData
+    })
+  
+  })
 
-var dadosCampanha2 = {
-  nome: 'cypress robot 2',
-  codigo: 'CR2'
-}
+  beforeEach( function() {
 
-var dadosCampanha3 = {
-  nome: 'cypress robot 3',
-  codigo: 'CR3'
-}
+    login.goLogin()
+    login.confirmPageLogin()
+    login.fillFormLogin(this.dataOffers.userOffers.user_logged)
+    login.submitLogin()
+  
+    menu.navPageData()
+  
+    meusDados.confirmPageData(this.dataOffers.userOffers.user_logged)
+  
+  })
 
-beforeEach(() => {
+  it('Criar campanha com sucesso', function() {
 
-  login.goLogin()
-  login.confirmPageLogin()
-  login.fillFormLogin(usuarioLogado.user, usuarioLogado.password)
-  login.submitLogin()
-
-  menu.navPageData()
-
-  meusDados.confirmPageData(usuarioLogado.user, usuarioLogado.perfil)
-
-})
-
-describe('Pagina de Campanhas', () => {
-
-  it('Criar campanha com sucesso', () => {
-
-    campanhas.removeCampaignDB(dadosCampanha1.nome, dadosCampanha1.codigo)
+    campanhas.removeCampaignDB(this.dataOffers.campaignOffers.campaign1)
     menu.navPageCampaign()
     campanhas.confirmPageCampaign()
-    campanhas.fillFormCampaign(dadosCampanha1.nome, dadosCampanha1.codigo)
+    campanhas.fillFormCampaign(this.dataOffers.campaignOffers.campaign1)
     campanhas.submitCampaign()
-    campanhas.alertSucessCampaign('Campanha salva com sucesso')
-    campanhas.inspectCampaign(dadosCampanha1.nome, dadosCampanha1.codigo)
+    campanhas.alertSucessCampaign(this.dataOffers.campaignOffers.inspect_screen_message.successfully_added)
+    campanhas.inspectCampaign(this.dataOffers.campaignOffers.campaign1)
 
   })
 
-  it('Editar campanha com sucesso', () => {
+  it('Editar campanha com sucesso', function() {
 
-    campanhas.removeCampaignDB(dadosCampanha1.nome, dadosCampanha1.codigo)
-    campanhas.removeCampaignDB(dadosCampanha2.nome, dadosCampanha2.codigo)
-    campanhas.addCampaignDB(dadosCampanha1.nome, dadosCampanha1.codigo)
+    campanhas.removeCampaignDB(this.dataOffers.campaignOffers.campaign1)
+    campanhas.removeCampaignDB(this.dataOffers.campaignOffers.campaign2)
+    campanhas.addCampaignDB(this.dataOffers.campaignOffers.campaign1)
     menu.navPageCampaign()
     campanhas.confirmPageCampaign()
-    campanhas.editCampaign(dadosCampanha1.codigo)
-    campanhas.fillFormCampaign(dadosCampanha2.nome, dadosCampanha2.codigo)
+    campanhas.editCampaign(this.dataOffers.campaignOffers.campaign1)
+    campanhas.fillFormCampaign(this.dataOffers.campaignOffers.campaign2)
     campanhas.submitCampaign()
-    campanhas.alertSucessCampaign('Campanha salva com sucesso')
-    campanhas.inspectCampaign(dadosCampanha2.nome, dadosCampanha2.codigo)
+    campanhas.alertSucessCampaign(this.dataOffers.campaignOffers.inspect_screen_message.successfully_added)
+    campanhas.inspectCampaign(this.dataOffers.campaignOffers.campaign2)
 
   })
 
-  it('Inativar campanha com sucesso', () => {
+  it('Inativar campanha com sucesso', function() {
 
-    campanhas.removeCampaignDB(dadosCampanha1.nome, dadosCampanha1.codigo)
-    campanhas.addCampaignDB(dadosCampanha1.nome, dadosCampanha1.codigo)
+    campanhas.removeCampaignDB(this.dataOffers.campaignOffers.campaign1)
+    campanhas.addCampaignDB(this.dataOffers.campaignOffers.campaign1)
     menu.navPageCampaign()
     campanhas.confirmPageCampaign()
-    campanhas.inactivateCampaign(dadosCampanha1.codigo)
-    campanhas.alertSucessCampaign('Campanha desativada com sucesso')
-    campanhas.inspectStatusCampaign(dadosCampanha1.codigo, 'Inativo')
+    campanhas.inactivateCampaign(this.dataOffers.campaignOffers.campaign1)
+    campanhas.alertSucessCampaign(this.dataOffers.campaignOffers.inspect_screen_message.successfully_disabled)
+    campanhas.inspectStatusCampaign(this.dataOffers.campaignOffers.campaign1, this.dataOffers.campaignOffers.inspect_screen_message.inactive_status)
     
   })
 
-  it('Editar uma campanha inativa com sucesso', () => {
+  it('Editar uma campanha inativa com sucesso', function() {
 
-    campanhas.removeCampaignDB(dadosCampanha1.nome, dadosCampanha1.codigo)
-    campanhas.removeCampaignDB(dadosCampanha2.nome, dadosCampanha2.codigo)
-    campanhas.addCampaignDB(dadosCampanha1.nome, dadosCampanha1.codigo)
+    campanhas.removeCampaignDB(this.dataOffers.campaignOffers.campaign1)
+    campanhas.removeCampaignDB(this.dataOffers.campaignOffers.campaign2)
+    campanhas.addCampaignDB(this.dataOffers.campaignOffers.campaign1)
     menu.navPageCampaign()
     campanhas.confirmPageCampaign()
-    campanhas.inactivateCampaign(dadosCampanha1.codigo)
-    campanhas.editCampaign(dadosCampanha1.codigo)
-    campanhas.fillFormCampaign(dadosCampanha2.nome, dadosCampanha2.codigo)
+    campanhas.inactivateCampaign(this.dataOffers.campaignOffers.campaign1)
+    campanhas.editCampaign(this.dataOffers.campaignOffers.campaign1)
+    campanhas.fillFormCampaign(this.dataOffers.campaignOffers.campaign2)
     campanhas.submitCampaign()
-    campanhas.alertSucessCampaign('Campanha salva com sucesso')
-    campanhas.inspectStatusCampaign(dadosCampanha2.codigo, 'Inativo')
+    campanhas.alertSucessCampaign(this.dataOffers.campaignOffers.inspect_screen_message.successfully_added)
+    campanhas.inspectStatusCampaign(this.dataOffers.campaignOffers.campaign1, this.dataOffers.campaignOffers.inspect_screen_message.inactive_status)
   })
 
-  it('Editar uma campanha inativa com o mesmo nome com sucesso', () => {
+  it('Editar uma campanha inativa com o mesmo nome com sucesso', function() {
 
-    campanhas.removeCampaignDB(dadosCampanha1.nome, dadosCampanha1.codigo)
-    campanhas.addCampaignDB(dadosCampanha1.nome, dadosCampanha1.codigo)
+    campanhas.removeCampaignDB(this.dataOffers.campaignOffers.campaign1)
+    campanhas.addCampaignDB(this.dataOffers.campaignOffers.campaign1)
     menu.navPageCampaign()
     campanhas.confirmPageCampaign()
-    campanhas.inactivateCampaign(dadosCampanha1.codigo)
-    campanhas.editCampaign(dadosCampanha1.codigo)
-    campanhas.fillFormCampaign(dadosCampanha1.nome, dadosCampanha1.codigo)
+    campanhas.inactivateCampaign(this.dataOffers.campaignOffers.campaign1)
+    campanhas.editCampaign(this.dataOffers.campaignOffers.campaign1)
+    campanhas.fillFormCampaign(this.dataOffers.campaignOffers.campaign1)
     campanhas.submitCampaign()
-    campanhas.alertSucessCampaign('Campanha salva com sucesso')
-    campanhas.inspectStatusCampaign(dadosCampanha1.codigo, 'Inativo')
+    campanhas.alertSucessCampaign(this.dataOffers.campaignOffers.inspect_screen_message.successfully_added)
+    campanhas.inspectStatusCampaign(this.dataOffers.campaignOffers.campaign1, this.dataOffers.campaignOffers.inspect_screen_message.inactive_status)
   })
 
-  it('Editar campanha com o mesmo nome com sucesso', () => {
+  it('Editar campanha com o mesmo nome com sucesso', function() {
 
-    campanhas.removeCampaignDB(dadosCampanha1.nome, dadosCampanha1.codigo)
-    campanhas.addCampaignDB(dadosCampanha1.nome, dadosCampanha1.codigo)
+    campanhas.removeCampaignDB(this.dataOffers.campaignOffers.campaign1)
+    campanhas.addCampaignDB(this.dataOffers.campaignOffers.campaign1)
     menu.navPageCampaign()
     campanhas.confirmPageCampaign()
-    campanhas.editCampaign(dadosCampanha1.codigo)
-    campanhas.fillFormCampaign(dadosCampanha1.nome, dadosCampanha1.codigo)
+    campanhas.editCampaign(this.dataOffers.campaignOffers.campaign1)
+    campanhas.fillFormCampaign(this.dataOffers.campaignOffers.campaign1)
     campanhas.submitCampaign()
-    campanhas.alertSucessCampaign('Campanha salva com sucesso')
-    campanhas.inspectCampaign(dadosCampanha1.nome ,dadosCampanha1.codigo)
+    campanhas.alertSucessCampaign(this.dataOffers.campaignOffers.inspect_screen_message.successfully_added)
+    campanhas.inspectCampaign(this.dataOffers.campaignOffers.campaign1)
     
   })
 
-  it('Tentativa de criar campanha com os campos vazios', () => {
+  it('Tentativa de criar campanha com os campos vazios', function() {
 
     menu.navPageCampaign()
     campanhas.confirmPageCampaign()
     campanhas.submitCampaign()
-    campanhas.invalidFeedbackCampaign('Preencha o nome da campanha')
-    campanhas.invalidFeedbackCampaign('Preencha o código da campanha')
+    campanhas.invalidFeedbackCampaign(this.dataOffers.campaignOffers.inspect_screen_message.empty_code)
+    campanhas.invalidFeedbackCampaign(this.dataOffers.campaignOffers.inspect_screen_message.empty_name)
     
   })
 
-  it('Tentativa de criar campanha com o mesmo nome de outra campanha existente', () => {
+  it('Tentativa de criar campanha com o mesmo nome de outra campanha existente', function() {
 
-    campanhas.removeCampaignDB(dadosCampanha1.nome, dadosCampanha1.codigo)
-    campanhas.addCampaignDB(dadosCampanha1.nome, dadosCampanha1.codigo)
+    campanhas.removeCampaignDB(this.dataOffers.campaignOffers.campaign1)
+    campanhas.addCampaignDB(this.dataOffers.campaignOffers.campaign1)
     menu.navPageCampaign()
     campanhas.confirmPageCampaign()
-    campanhas.fillFormCampaign(dadosCampanha1.nome, 'CRT1')
+    campanhas.fillFormCampaign(this.dataOffers.campaignOffers.campaign1_name_equal)
     campanhas.submitCampaign()
-    campanhas.alertDangerCampaign('Não foi possível salvar a campanha. Verifique se os campos não são iguais a campos de outras campanhas')
+    campanhas.alertDangerCampaign(this.dataOffers.campaignOffers.inspect_screen_message.equal_name)
     
   })
 
-  it('Tentativa de criar campanha com o mesmo codigo de outra campanha existente', () => {
+  it('Tentativa de criar campanha com o mesmo codigo de outra campanha existente', function() {
 
-    campanhas.removeCampaignDB(dadosCampanha1.nome, dadosCampanha1.codigo)
-    campanhas.addCampaignDB(dadosCampanha1.nome, dadosCampanha1.codigo)
+    campanhas.removeCampaignDB(this.dataOffers.campaignOffers.campaign1)
+    campanhas.addCampaignDB(this.dataOffers.campaignOffers.campaign1)
     menu.navPageCampaign()
     campanhas.confirmPageCampaign()
-    campanhas.fillFormCampaign('cypress robot teste', dadosCampanha1.codigo)
+    campanhas.fillFormCampaign(this.dataOffers.campaignOffers.campaign1_code_equal)
     campanhas.submitCampaign()
-    campanhas.alertDangerCampaign('Não foi possível salvar a campanha. Verifique se os campos não são iguais a campos de outras campanhas')
+    campanhas.alertDangerCampaign(this.dataOffers.campaignOffers.inspect_screen_message.equal_code)
     
   })
 
-  it('Tentativa de criar campanha com o nome e codigo grande', () => {
+  it('Tentativa de criar campanha com o nome e codigo grande', function() {
 
     menu.navPageCampaign()
     campanhas.confirmPageCampaign()
-    campanhas.fillFormCampaign('AMARELO ESVERDEADOCLAROAMARELO ESVERDEADO CLAROAMARELO ESVERDEADO CLAROAMARELO ESVERDEADO CLAROAMAREL', '12345678910111213141516171')
+    campanhas.fillFormCampaign(this.dataOffers.campaignOffers.campaign_limit_characters)
     campanhas.submitCampaign()
-    campanhas.invalidFeedbackCampaign('O nome da campanha deve ter até 100 caracteres')
-    campanhas.invalidFeedbackCampaign('O nome da campanha deve ter até 100 caracteres')
+    campanhas.invalidFeedbackCampaign(this.dataOffers.campaignOffers.inspect_screen_message.limit_characters_name)
+    campanhas.invalidFeedbackCampaign(this.dataOffers.campaignOffers.inspect_screen_message.limit_characters_code)
 
   })
 
-  it('Tentativa de editar campanha com os campos vazios', () => {
+  it('Tentativa de editar campanha com os campos vazios', function() {
 
-    campanhas.removeCampaignDB(dadosCampanha1.nome, dadosCampanha1.codigo)
-    campanhas.addCampaignDB(dadosCampanha1.nome, dadosCampanha1.codigo)
+    campanhas.removeCampaignDB(this.dataOffers.campaignOffers.campaign1)
+    campanhas.addCampaignDB(this.dataOffers.campaignOffers.campaign1)
     menu.navPageCampaign()
     campanhas.confirmPageCampaign()
-    campanhas.editCampaign(dadosCampanha1.codigo)
+    campanhas.editCampaign(this.dataOffers.campaignOffers.campaign1)
     campanhas.submitCampaign()
-    campanhas.invalidFeedbackCampaign('Preencha o nome da campanha')
-    campanhas.invalidFeedbackCampaign('Preencha o código da campanha')
+    campanhas.invalidFeedbackCampaign(this.dataOffers.campaignOffers.inspect_screen_message.empty_code)
+    campanhas.invalidFeedbackCampaign(this.dataOffers.campaignOffers.inspect_screen_message.empty_name)
     
   })
 
-  it('Tentativa de editar campanha com o mesmo nome de outra campanha existente', () => {
+  it('Tentativa de editar campanha com o mesmo nome de outra campanha existente', function() {
 
-    campanhas.removeCampaignDB(dadosCampanha1.nome, dadosCampanha1.codigo)
-    campanhas.removeCampaignDB(dadosCampanha2.nome, dadosCampanha2.codigo)
-    campanhas.addCampaignDB(dadosCampanha1.nome, dadosCampanha1.codigo)
-    campanhas.addCampaignDB(dadosCampanha2.nome, dadosCampanha2.codigo)
+    campanhas.removeCampaignDB(this.dataOffers.campaignOffers.campaign1)
+    campanhas.removeCampaignDB(this.dataOffers.campaignOffers.campaign2)
+    campanhas.addCampaignDB(this.dataOffers.campaignOffers.campaign1)
+    campanhas.addCampaignDB(this.dataOffers.campaignOffers.campaign2)
     menu.navPageCampaign()
     campanhas.confirmPageCampaign()
-    campanhas.editCampaign(dadosCampanha1.codigo)
-    campanhas.fillFormCampaign(dadosCampanha2.nome, 'CRT1')
+    campanhas.editCampaign(this.dataOffers.campaignOffers.campaign1)
+    campanhas.fillFormCampaign(this.dataOffers.campaignOffers.campaign2_name_equal)
     campanhas.submitCampaign()
-    campanhas.alertDangerCampaign('Não foi possível salvar a campanha. Verifique se os campos não são iguais a campos de outras campanhas')
+    campanhas.alertDangerCampaign(this.dataOffers.campaignOffers.inspect_screen_message.equal_name)
     
   })
 
-  it('Tentativa de editar campanha com o mesmo codigo de outra campanha existente', () => {
+  it('Tentativa de editar campanha com o mesmo codigo de outra campanha existente', function() {
 
-    campanhas.removeCampaignDB(dadosCampanha1.nome, dadosCampanha1.codigo)
-    campanhas.removeCampaignDB(dadosCampanha2.nome, dadosCampanha2.codigo)
-    campanhas.addCampaignDB(dadosCampanha1.nome, dadosCampanha1.codigo)
-    campanhas.addCampaignDB(dadosCampanha2.nome, dadosCampanha2.codigo)
+    campanhas.removeCampaignDB(this.dataOffers.campaignOffers.campaign1)
+    campanhas.removeCampaignDB(this.dataOffers.campaignOffers.campaign2)
+    campanhas.addCampaignDB(this.dataOffers.campaignOffers.campaign1)
+    campanhas.addCampaignDB(this.dataOffers.campaignOffers.campaign2)
     menu.navPageCampaign()
     campanhas.confirmPageCampaign()
-    campanhas.editCampaign(dadosCampanha1.codigo)
-    campanhas.fillFormCampaign('cypress robot teste', dadosCampanha2.codigo)
+    campanhas.editCampaign(this.dataOffers.campaignOffers.campaign1)
+    campanhas.fillFormCampaign(this.dataOffers.campaignOffers.campaign2_code_equal)
     campanhas.submitCampaign()
-    campanhas.alertDangerCampaign('Não foi possível salvar a campanha. Verifique se os campos não são iguais a campos de outras campanhas')
+    campanhas.alertDangerCampaign(this.dataOffers.campaignOffers.inspect_screen_message.equal_code)
     
   })
 
-  it('Tentativa de editar campanha com o nome e codigo grande', () => {
+  it('Tentativa de editar campanha com o nome e codigo grande', function() {
 
-    campanhas.removeCampaignDB(dadosCampanha1.nome, dadosCampanha1.codigo)
-    campanhas.addCampaignDB(dadosCampanha1.nome, dadosCampanha1.codigo)
+    campanhas.removeCampaignDB(this.dataOffers.campaignOffers.campaign1)
+    campanhas.addCampaignDB(this.dataOffers.campaignOffers.campaign1)
     menu.navPageCampaign()
     campanhas.confirmPageCampaign()
-    campanhas.editCampaign(dadosCampanha1.codigo)
-    campanhas.fillFormCampaign('AMARELO ESVERDEADOCLAROAMARELO ESVERDEADO CLAROAMARELO ESVERDEADO CLAROAMARELO ESVERDEADO CLAROAMAREL', '12345678910111213141516171')
+    campanhas.editCampaign(this.dataOffers.campaignOffers.campaign1)
+    campanhas.fillFormCampaign(this.dataOffers.campaignOffers.campaign_limit_characters)
     campanhas.submitCampaign()
-    campanhas.invalidFeedbackCampaign('O nome da campanha deve ter até 100 caracteres')
-    campanhas.invalidFeedbackCampaign('O nome da campanha deve ter até 100 caracteres')
+    campanhas.invalidFeedbackCampaign(this.dataOffers.campaignOffers.inspect_screen_message.limit_characters_name)
+    campanhas.invalidFeedbackCampaign(this.dataOffers.campaignOffers.inspect_screen_message.limit_characters_code)
     
   })
 
-  it('Tentativa de editar uma campanha inativa com o mesmo nome de outra campanha existente', () => {
+  it('Tentativa de editar uma campanha inativa com o mesmo nome de outra campanha existente', function() {
 
-    campanhas.removeCampaignDB(dadosCampanha1.nome, dadosCampanha1.codigo)
-    campanhas.removeCampaignDB(dadosCampanha2.nome, dadosCampanha2.codigo)
-    campanhas.addCampaignDB(dadosCampanha1.nome, dadosCampanha1.codigo)
-    campanhas.addCampaignDB(dadosCampanha2.nome, dadosCampanha2.codigo)
+    campanhas.removeCampaignDB(this.dataOffers.campaignOffers.campaign1)
+    campanhas.removeCampaignDB(this.dataOffers.campaignOffers.campaign2)
+    campanhas.addCampaignDB(this.dataOffers.campaignOffers.campaign1)
+    campanhas.addCampaignDB(this.dataOffers.campaignOffers.campaign2)
     menu.navPageCampaign()
     campanhas.confirmPageCampaign()
-    campanhas.inactivateCampaign(dadosCampanha1.codigo)
-    campanhas.editCampaign(dadosCampanha1.codigo)
-    campanhas.fillFormCampaign(dadosCampanha2.nome, 'CRT1')
+    campanhas.inactivateCampaign(this.dataOffers.campaignOffers.campaign1)
+    campanhas.editCampaign(this.dataOffers.campaignOffers.campaign1)
+    campanhas.fillFormCampaign(this.dataOffers.campaignOffers.campaign2_name_equal)
     campanhas.submitCampaign()
-    campanhas.alertDangerCampaign('Não foi possível salvar a campanha. Verifique se os campos não são iguais a campos de outras campanhas')
+    campanhas.alertDangerCampaign(this.dataOffers.campaignOffers.inspect_screen_message.equal_name)
    
   })
   
-  it('Tentativa de editar uma campanha inativa com o mesmo codigo de outra campanha existente', () => {
+  it('Tentativa de editar uma campanha inativa com o mesmo codigo de outra campanha existente', function() {
 
-    campanhas.removeCampaignDB(dadosCampanha1.nome, dadosCampanha1.codigo)
-    campanhas.removeCampaignDB(dadosCampanha2.nome, dadosCampanha2.codigo)
-    campanhas.addCampaignDB(dadosCampanha1.nome, dadosCampanha1.codigo)
-    campanhas.addCampaignDB(dadosCampanha2.nome, dadosCampanha2.codigo)
+    campanhas.removeCampaignDB(this.dataOffers.campaignOffers.campaign1)
+    campanhas.removeCampaignDB(this.dataOffers.campaignOffers.campaign2)
+    campanhas.addCampaignDB(this.dataOffers.campaignOffers.campaign1)
+    campanhas.addCampaignDB(this.dataOffers.campaignOffers.campaign2)
     menu.navPageCampaign()
     campanhas.confirmPageCampaign()
-    campanhas.inactivateCampaign(dadosCampanha1.codigo)
-    campanhas.editCampaign(dadosCampanha1.codigo)
-    campanhas.fillFormCampaign('cypress robot teste', dadosCampanha2.codigo)
+    campanhas.inactivateCampaign(this.dataOffers.campaignOffers.campaign1)
+    campanhas.editCampaign(this.dataOffers.campaignOffers.campaign1)
+    campanhas.fillFormCampaign(this.dataOffers.campaignOffers.campaign2_code_equal)
     campanhas.submitCampaign()
-    campanhas.alertDangerCampaign('Não foi possível salvar a campanha. Verifique se os campos não são iguais a campos de outras campanhas')
+    campanhas.alertDangerCampaign(this.dataOffers.campaignOffers.inspect_screen_message.equal_code)
   })
 
 

@@ -10,7 +10,7 @@
   "author": "yago izidio barros",
   "license": "MIT",
   "devDependencies": {
-    "cypress": "^9.3.1",
+    "cypress": "^9.6.1",
     "cypress-xpath": "^1.6.2",
     "mysql": "github:mysqljs/mysql"
   }

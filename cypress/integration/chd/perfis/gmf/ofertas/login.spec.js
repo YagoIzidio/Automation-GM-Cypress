@@ -3,45 +3,43 @@ import login from '../../../../../support/pages/Common/LoginPage'
 import meusDados from '../../../../../support/pages/Common/MyDataPage'
 import menu from '../../../../../support/pages/OfertasPage/MenuPage'
 
-var usuarioLogado = {
-  user: 'AGOFFR',
-  password: 'Augusto23051991@',
-  perfil: 'GMF Ofertas'
-}
+describe('Pagina de Login',function() {
 
-beforeEach(() => {
+  beforeEach(function() {
+    cy.fixture('dataOffers').then((massData)=> {
+      this.dataOffers = massData
+    })    
+  })
 
-  login.goLogin()
-  login.confirmPageLogin()
-  
-})
+  beforeEach(function() {
+    login.goLogin()
+    login.confirmPageLogin()   
+  })
 
-describe('Pagina de Login', () => {
+  it('Logando com sucesso', function() {
 
-  it('Logando com sucesso', () => {
-
-    login.fillFormLogin(usuarioLogado.user, usuarioLogado.password)
+    login.fillFormLogin(this.dataOffers.userOffers.user_logged)
     login.submitLogin()
 
     menu.navPageData()
 
-    meusDados.confirmPageData(usuarioLogado.user, usuarioLogado.perfil) 
+    meusDados.confirmPageData(this.dataOffers.userOffers.user_logged) 
 
   })
 
-  it('Tentativa com a senha invalida', () => {
-    login.fillFormLogin('ACCYAG', '123')
+  it('Tentativa com a senha invalida', function() {
+    login.fillFormLogin(this.dataOffers.userOffers.password_invalid)
     login.submitLogin()
     login.alertDangerLogin('Usuário / senha inválido')     
   })
 
-  it('Tentativa com o usuario invalido', () => {
-    login.fillFormLogin('ACCYA', '@Yagojoseizidiobarros9623@')
+  it('Tentativa com o usuario invalido', function() {
+    login.fillFormLogin(this.dataOffers.userOffers.user_invalid)
     login.submitLogin()
-    login.alertDangerLogin('Usuário não encontrado')    
+    login.alertDangerLogin('Usuário inválido')    
   })
 
-  it('Tentativa com os campos vazios', () => {
+  it('Tentativa com os campos vazios', function() {
     login.submitLogin()
     login.invalidFeedbackLogin('É preciso informar o usuário')
     login.invalidFeedbackLogin('É preciso informar a senha')

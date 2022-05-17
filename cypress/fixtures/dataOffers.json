@@ -1,0 +1,186 @@
+{
+
+  "userOffers": {
+
+    "user_logged": {
+      "user": "ACCYAG",
+      "password": "@Yagojoseizidiobarros9623@@XXX",
+      "profile": "GMF Ofertas"
+    },
+
+    "user_invalid": {
+      "user": "@@@",
+      "password": "Augusto23051991@"
+    },
+
+    "password_invalid": {
+      "user": "ACCYAG",
+      "password": "@@@"
+    }
+  },
+
+  "simulationOffers": {
+
+    "step1": {
+
+      "page": "IDENTIFICAÇÃO",
+      "personPJ": "Jurídica",
+      "personPF": "Física",
+      "saleType": "Novo",
+      "modelYear": "2021",
+      "manufacturerYear": "2021",
+      "manufacturer": "CHEVROLET",
+      "model": "ONIX", 
+      "version": "HATCH RS 1.0 TB 12V FLEX 5P AUT.",
+      "simulatorCampaigns": "Campanha Onix 3030",
+      "offerType": "Regional"
+
+    },
+
+    "step2": {
+
+      "getFinanceStructures": "https://2tagn109g7.execute-api.us-east-2.amazonaws.com/dev/GMF/v1/financeStructures/allowed/offers?&assetType=1&personType=PF&isEmployee=false&isDirectSale=false",
+      "getAggregateValues": "https://2mztwarql3.execute-api.us-east-2.amazonaws.com/dev/GMF/v1/simulation/aggregateValues/offers?&assetType=1&personType=PF&isEmployee=false&isDirectSale=false&financeTypeId=1",
+      "page": "DADOS DO FINANCIAMENTO",
+      "financialStructure1": "Regular",
+      "financialStructure2": "Balão",
+      "financialStructure3": "Carência",
+      "financialStructure4": "Fazendeiro",
+      "financialStructure5": "Especial",
+      "financialStructure6": "12 menores",
+      "valueAcessories": "2000",
+      "valueForwardingAgent": "3000",
+      "vehicleValue": "100000",
+      "entryValue": "50000",
+      "entryPercentage": "47.17%",
+      "totalFinancingValue": "R$ 106.000,00"
+
+    },
+
+    "step3": {
+
+      "entryValue": "R$ 50.000,00",
+      "entryPercentage": "47.17%",
+      "totalFinancingValue": "R$ 106.000,00",
+      "postConditionSelection": "https://2tagn109g7.execute-api.us-east-2.amazonaws.com/dev/GMF/v1/simulations/offers?"
+
+    
+
+    },
+
+    "step4": {
+
+      "page": "RESUMO",
+      "vehicleValue": "R$ 100.000,00",
+      "entryValue": "R$ 50.000,00",
+      "valueAcessories": "R$ 2.000,00",
+      "valueForwardingAgent": "R$ 3.000,00"
+
+    }
+
+  },
+
+  "campaignOffers": {
+
+    "inspect_screen_message": {
+
+      "successfully_added": "Campanha salva com sucesso",
+      "successfully_disabled": "Campanha desativada com sucesso",
+      "inactive_status": "Inativo",
+      "active_status": "Ativo",
+      "empty_code": "Preencha o código da campanha",
+      "empty_name": "Preencha o nome da campanha",
+      "limit_characters_name": "O nome da campanha deve ter até 100 caracteres",
+      "limit_characters_code": "O código da campanha deve ter até 25 caracteres",
+      "equal_code": "Não foi possível salvar a campanha. Verifique se os campos não são iguais a campos de outras campanhas",
+      "equal_name": "Não foi possível salvar a campanha. Verifique se os campos não são iguais a campos de outras campanhas"
+    },
+
+    "campaign1": {
+      "name": "cypress robot 1",
+      "code": "CR1"
+    }, 
+
+    "campaign2": {
+      "name": "cypress robot 2",
+      "code": "CR2"
+    },
+
+    "campaign1_name_equal": {
+      "name": "cypress robot 1",
+      "code": "CRT1"
+    },
+
+    "campaign1_code_equal": {
+      "name": "cypress robot teste 1",
+      "code": "CR1"
+    },
+
+    "campaign2_name_equal": {
+      "name": "cypress robot 2",
+      "code": "CRT2"
+    },
+
+    "campaign2_code_equal": {
+      "name": "cypress robot teste 2",
+      "code": "CR2"
+    },
+
+    "campaign_limit_characters": {
+      "name": "AMARELO ESVERDEADOCLAROAMARELO ESVERDEADO CLAROAMARELO ESVERDEADO CLAROAMARELO ESVERDEADO CLAROAMAREL",
+      "code": "12345678910111213141516171"
+    }
+
+  },
+
+  "colorOffers": {
+
+      "inspect_screen_message": {
+  
+        "successfully_added": "Cor salva com sucesso",
+        "empty_code": "Preencha o código da cor",
+        "empty_name": "Preencha o nome da cor",
+        "limit_characters_name": "O nome da cor pode ter no máximo 100 caracteres",
+        "limit_characters_code": "O código da cor pode ter no máximo 3 caracteres",
+        "equal_code": "Não foi possível salvar a cor. Verifique se os campos não são iguais a campos de outras cores",
+        "equal_name": "Não foi possível salvar a cor. Verifique se os campos não são iguais a campos de outras cores"
+      },
+  
+      "color1": {
+        "name": "CYPRESS ROBOT 1",
+        "code": "CR1"
+      }, 
+  
+      "color2": {
+        "name": "CYPRESS ROBOT 2",
+        "code": "CR2"
+      },
+  
+      "color1_name_equal": {
+        "name": "CYPRESS ROBOT 1",
+        "code": "RP1"
+      },
+  
+      "color1_code_equal": {
+        "name": "CYPRESS ROBOT TESTE 1",
+        "code": "CR1"
+      },
+  
+      "color2_name_equal": {
+        "name": "CYPRESSS ROBOT 2",
+        "code": "RP2"
+      },
+  
+      "color2_code_equal": {
+        "name": "CYPRESS ROBOT TESTE 2",
+        "code": "CR2"
+      },
+  
+      "color_limit_characters": {
+        "name": "AMARELO ESVERDEADOCLAROAMARELO ESVERDEADO CLAROAMARELO ESVERDEADO CLAROAMARELO ESVERDEADO CLAROAMAREL",
+        "code": "1234"
+      }
+
+  }
+
+}

@@ -1,9 +1,9 @@
 class MyDataPage {
 
-  confirmPageData(user, perfil) {
+  confirmPageData(profileUser) {
     cy.get('.form-row')
-      .should('contain', user)
-      .should('contain', perfil) 
+      .should('contain', profileUser.user)
+      .should('contain', profileUser.profile) 
   }
 }
 
